@@ -1,0 +1,26 @@
+{
+  "extends": "@strapi/typescript-utils/tsconfigs/server",
+
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": ".",
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
+    "allowJs": true
+  },
+
+  "include": [
+    // Include the root directory
+    "./",
+    // Force the JSON files in the src folder to be included
+    "package.json",
+    "admin/**/*.json"
+  ],
+
+  "exclude": [
+    "node_modules/",
+    "dist/",
+    // Do not include test files
+    "**/*.test.ts"
+  ]
+}
