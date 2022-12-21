@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-encryptable-field",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Encrypts values on save, and decrypts on fetch.",
   "strapi": {
     "name": "encryptable-field",
