@@ -27,6 +27,9 @@ jobs:
       - name: "Build release"
         run: npm run build
 
+      - name: "Copy README.md"
+        run: cp README.md dist/README.md
+
       - name: "Publish to NPM"
         run: cd dist && npm publish
         env:
