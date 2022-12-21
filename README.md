@@ -3,12 +3,14 @@
 # Strapi's Encryptable Field Plugin
 
 > This field type encrypts the value on create and update.  
-And decrypts on fetch one and many.
+> And decrypts on fetch one and many.
 
 > DO NOT USE ENCRYPTION TO STORE USER PASSWORDS, FOR THIS YOU USE HASHING.  
-> ONLY STORE PII DATA WHEN NEEDED AND ONLY THE BARE MINIMUM. CONSULT THE RULES AROUND PII DATA THAT APPLY IN THE REGIONS YOU OPERATE IN.
+> ONLY STORE PII DATA WHEN NEEDED AND ONLY THE BARE MINIMUM. CONSULT THE RULES AROUND PII DATA THAT APPLY IN THE REGIONS
+> YOU OPERATE IN.
 
 ## Encryption method
+
 Method: `aes-256-cbc`  
 IV Length: `16`  
 Encryption key: `32 bytes hex string` provided by environment variable `ENCRYPTION_KEY`
@@ -33,11 +35,15 @@ Open or create the file `config/plugins.js` and enable the plugin by adding the 
 
 ```js
 module.exports = {
-  // ...
-  'encryptable-field': {
-    enabled: true,
-  },
+    // ...
+    'encryptable-field': {
+        enabled: true,
+    },
 };
 ```
 
 Add the environment variable `ENCRYPTION_KEY` to your server and the .env.
+
+## 🚀 Roadmap
+
+- [ ] Role based decryption
