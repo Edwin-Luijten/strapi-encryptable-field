@@ -7,17 +7,20 @@ const KEY = process.env.ENCRYPTION_KEY || ''; // hex key 32 bytes
 const PLUGIN_DSN = 'plugin::encryptable-field.encryptable-field';
 
 export default ({ strapi }: { strapi: Strapi }) => ({
-
   // Get fields that are of our custom field type.
   getFields(fields: object): string[] {
-    const attributes = [];
+    const attributes: Array<string> = [];
     for (const attribute in fields) {
-      if (fields[attribute]['customField'] ===  PLUGIN_DSN) {
+      if (
+        Object.hasOwn(fields, attribute) &&
+        Object.hasOwn(fields[attribute], 'customField') &&
+        fields[attribute].customField === PLUGIN_DSN
+      ) {
         attributes.push(attribute);
       }
     }
 
-    return attributes
+    return attributes;
   },
 
   encrypt(value: string): string {
@@ -38,7 +41,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     const textParts = value.split(':');
     const firstPart = textParts.shift();
 
-    if (!firstPart) throw Error('Malformed payload');
+    if (!firstPart) throw new Error('Malformed payload');
 
     const iv = Buffer.from(firstPart, 'hex');
     const encryptedText = Buffer.from(textParts.join(':'), 'hex');
@@ -48,5 +51,5 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     decrypted = Buffer.concat([decrypted, decipher.final()]);
 
     return decrypted.toString();
-  }
+  },
 });

@@ -1,41 +1,51 @@
-import React, { useRef } from 'react';
-import { Box, Field, Stack, FieldLabel, Flex, FieldInput, FieldHint, FieldError } from '@strapi/design-system';
-import { useIntl } from 'react-intl';
-import getTrad from '../../utils/getTrad';
+import {
+  Box,
+  Field,
+  Stack,
+  FieldLabel,
+  Flex,
+  FieldInput,
+  FieldHint,
+  FieldError,
+} from '@strapi/design-system';
 import PropTypes from 'prop-types';
+import React, { useRef } from 'react';
+import { useIntl } from 'react-intl';
+import getTrad from '../../utils/getTranslationId';
 
-const EncryptableFieldInput = ({
-                                 description,
-                                 placeholder,
-                                 disabled,
-                                 error,
-                                 intlLabel,
-                                 labelAction,
-                                 name,
-                                 onChange,
-                                 required,
-                                 value,
-                                 attribute
-                               }) => {
-
-  const {formatMessage} = useIntl();
-  const ref = useRef(null);
+const encryptableFieldInput = ({
+  description,
+  placeholder,
+  disabled,
+  error,
+  intlLabel,
+  labelAction,
+  name,
+  onChange,
+  required,
+  value,
+  attribute,
+}): JSX.Element => {
+  const { formatMessage } = useIntl();
+  const reference = useRef(null);
 
   return (
     <Box>
       <Field
         id={name}
         name={name}
-        hint={attribute.options?.hint ? attribute.options.hint : description ? description : ''}
+        hint={attribute.options?.hint ?? description ?? ''}
         error={error}
         required={required}
       >
         <Stack spacing={1}>
           <Flex>
-            <FieldLabel action={labelAction} required={required}>{formatMessage(intlLabel)}</FieldLabel>
+            <FieldLabel action={labelAction} required={required}>
+              {formatMessage(intlLabel)}
+            </FieldLabel>
           </Flex>
           <FieldInput
-            ref={ref}
+            ref={reference}
             id="encryptable-field-value"
             disabled={disabled}
             required={required}
@@ -49,15 +59,15 @@ const EncryptableFieldInput = ({
             onChange={onChange}
             hint={description}
           />
-          <FieldHint/>
-          <FieldError/>
+          <FieldHint />
+          <FieldError />
         </Stack>
       </Field>
     </Box>
-  )
-}
+  );
+};
 
-EncryptableFieldInput.defaultProps = {
+encryptableFieldInput.defaultProps = {
   description: null,
   disabled: false,
   error: null,
@@ -66,7 +76,7 @@ EncryptableFieldInput.defaultProps = {
   value: '',
 };
 
-EncryptableFieldInput.propTypes = {
+encryptableFieldInput.propTypes = {
   intlLabel: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   attribute: PropTypes.object.isRequired,
@@ -79,4 +89,4 @@ EncryptableFieldInput.propTypes = {
   value: PropTypes.string,
 };
 
-export default EncryptableFieldInput
+export default encryptableFieldInput;
