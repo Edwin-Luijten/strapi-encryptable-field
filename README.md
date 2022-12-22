@@ -6,14 +6,18 @@
 > And decrypts on fetch one and many.
 
 > DO NOT USE ENCRYPTION TO STORE USER PASSWORDS, FOR THIS YOU USE HASHING.  
-> ONLY STORE PII DATA WHEN NEEDED AND ONLY THE BARE MINIMUM. CONSULT THE RULES AROUND PII DATA THAT APPLY IN THE REGIONS
-> YOU OPERATE IN.
+> ONLY STORE PII DATA WHEN NEEDED AND ONLY THE BARE MINIMUM.   
+> CONSULT THE RULES AROUND PII DATA THAT APPLY IN THE REGIONS YOU OPERATE IN.
+
+![GitHub Workflow Status (develop)](https://img.shields.io/github/actions/workflow/status/edwin-luijten/strapi-encryptable-field/npm-publish.yml?style=for-the-badge)
+![NPM Downloads](https://img.shields.io/npm/dm/strapi-plugin-encryptable-field?style=for-the-badge)
 
 ## Encryption method
 
-Method: `aes-256-cbc`  
-IV Length: `16`  
-Encryption key: `32 bytes hex string` provided by environment variable `ENCRYPTION_KEY`
+| Method | IV Length | Encryption key                                                         |
+|--------|-----------|------------------------------------------------------------------------|
+| aes-256-cbc       | 16        | 32 bytes hex string, provided by environment variable `ENCRYPTION_KEY` |
+
 
 ## ✨ Supported Strapi Versions
 
