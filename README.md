@@ -14,9 +14,9 @@
 
 ## Encryption method
 
-| Method | IV Length | Encryption key                                                         |
-|--------|-----------|------------------------------------------------------------------------|
-| aes-256-cbc       | 16        | 32 bytes hex string, provided by environment variable `ENCRYPTION_KEY` |
+| Method      | IV Length | Encryption key                                                         |
+|-------------|-----------|------------------------------------------------------------------------|
+| aes-256-cbc | 16        | 32 bytes hex string, provided by environment variable `ENCRYPTION_KEY` |
 
 
 ## ✨ Supported Strapi Versions
