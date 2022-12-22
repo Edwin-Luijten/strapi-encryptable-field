@@ -2,6 +2,7 @@ import { prefixPluginTranslations } from '@strapi/helper-plugin';
 import pluginId from './pluginId';
 import getTranslationId from './utils/getTranslationId';
 
+
 export default {
   register(app) {
     app.customFields.register({
@@ -54,15 +55,17 @@ export default {
             },
             items: [
               {
-                name: 'required',
-                type: 'checkbox',
-                intlLabel: {
-                  id: getTranslationId(`options.advanced.requiredField`),
-                  defaultMessage: 'Required field',
-                },
-                description: {
-                  id: getTranslationId(`options.advanced.requiredField.description`),
-                  defaultMessage: "You won't be able to create an entry if this field is empty",
+                required: {
+                  name: 'required',
+                  type: 'checkbox',
+                  intlLabel: {
+                    id: 'content-type-builder.form.attribute.item.requiredField',
+                    defaultMessage: 'Required field',
+                  },
+                  description: {
+                    id: 'content-type-builder.form.attribute.item.requiredField.description',
+                    defaultMessage: "You won't be able to create an entry if this field is empty",
+                  },
                 },
               },
             ],

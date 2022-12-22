@@ -51,7 +51,7 @@ const encryptableFieldInput = ({
             required={required}
             name={name}
             aria-label={formatMessage({
-              id: getTrad('encryptable-field.input.aria-label'),
+              id: getTrad('input.aria-label'),
               defaultMessage: 'Encryptable input',
             })}
             value={value}

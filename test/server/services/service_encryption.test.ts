@@ -22,4 +22,19 @@ describe('Encryption Service', () => {
     const s = service.service({ strapi: strapi });
     expect(() => s.decrypt(':')).toThrow('Malformed payload');
   });
+
+  it('checkIfEncrypted should return true if the value is already encrypted', () => {
+    const s = service.service({ strapi: strapi });
+    const encrypted = s.encrypt('a');
+    const isEncrypted = s.isEncrypted(encrypted);
+
+    expect(isEncrypted).toBe(true);
+  });
+
+  it('checkIfEncrypted should return false if the value is not encrypted', () => {
+    const s = service.service({ strapi: strapi });
+    const isEncrypted = s.isEncrypted('903248329043284slkdfjslf');
+
+    expect(isEncrypted).toBe(false);
+  });
 });

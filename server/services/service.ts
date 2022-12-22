@@ -35,6 +35,19 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     return `${iv.toString('hex')}:${encrypted.toString('hex')}`;
   },
 
+  isEncrypted(value: string): boolean {
+    if (!value) return false;
+
+    const textParts = value.split(':');
+    const firstPart = textParts.shift();
+
+    if (!firstPart) throw new Error('Malformed payload');
+
+    const iv = Buffer.from(firstPart, 'hex');
+
+    return (iv.length === IV_LENGTH && /[0-9A-Fa-f]{6}/g.test(value));
+  },
+
   decrypt(value: string): string {
     if (!value) return value;
 
