@@ -8,7 +8,7 @@ const PLUGIN_DSN = 'plugin::encryptable-field.encryptable-field';
 
 export default ({ strapi }: { strapi: Strapi }) => ({
   // Get fields that are of our custom field type.
-  getFields(fields: object): string[] {
+  getFields(fields: object, roles?: any[]): string[] {
     const attributes: Array<string> = [];
     for (const attribute in fields) {
       if (
@@ -16,23 +16,22 @@ export default ({ strapi }: { strapi: Strapi }) => ({
         Object.hasOwn(fields[attribute], 'customField') &&
         fields[attribute].customField === PLUGIN_DSN
       ) {
-        attributes.push(attribute);
+        if (roles &&
+          Object.hasOwn(fields[attribute], 'options') &&
+          Object.hasOwn(fields[attribute].options, 'roles')
+        ) {
+          for (const id of roles?.map((role: any) => role.id) ?? []) {
+            if (fields[attribute].options.roles.includes(id)) {
+              attributes.push(attribute);
+            }
+          }
+        } else {
+          attributes.push(attribute);
+        }
       }
     }
 
     return attributes;
-  },
-
-  encrypt(value: string): string {
-    if (!value) return value;
-
-    const iv = randomBytes(IV_LENGTH);
-    const cipher = createCipheriv(AES_METHOD, Buffer.from(KEY), iv);
-
-    let encrypted = cipher.update(value);
-    encrypted = Buffer.concat([encrypted, cipher.final()]);
-
-    return `${iv.toString('hex')}:${encrypted.toString('hex')}`;
   },
 
   isEncrypted(value: string): boolean {
@@ -45,7 +44,29 @@ export default ({ strapi }: { strapi: Strapi }) => ({
 
     const iv = Buffer.from(firstPart, 'hex');
 
-    return (iv.length === IV_LENGTH && /[0-9A-Fa-f]{6}/g.test(value));
+    // Test first indications of encrypted or not
+    if (iv.length !== IV_LENGTH && !/[0-9A-Fa-f]{6}/g.test(value)) {
+      return false;
+    }
+
+    try {
+      this.decrypt(value);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
+
+  encrypt(value: string): string {
+    if (!value) return value;
+
+    const iv = randomBytes(IV_LENGTH);
+    const cipher = createCipheriv(AES_METHOD, Buffer.from(KEY), iv);
+
+    let encrypted = cipher.update(value);
+    encrypted = Buffer.concat([encrypted, cipher.final()]);
+
+    return `${iv.toString('hex')}:${encrypted.toString('hex')}`;
   },
 
   decrypt(value: string): string {

@@ -2,7 +2,8 @@
   "extends": "@strapi/typescript-utils/tsconfigs/server",
   "compilerOptions": {
     "lib": [
-      "ESNext"
+      "ESNext",
+      "dom"
     ],
     "outDir": "dist",
     "rootDir": ".",

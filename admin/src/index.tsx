@@ -1,10 +1,15 @@
 import { prefixPluginTranslations } from '@strapi/helper-plugin';
 import pluginId from './pluginId';
 import getTranslationId from './utils/getTranslationId';
-
+import Multiselect from './components/Multiselect';
 
 export default {
-  register(app) {
+  async register(app) {
+    app.plugins['content-type-builder'].apis.forms.components.add({
+      id: 'multiselect',
+      component: Multiselect,
+    });
+
     app.customFields.register({
       pluginId,
       name: pluginId,
@@ -44,9 +49,32 @@ export default {
             type: 'text',
             defaultValue: null,
             description: {
-              id: getTranslationId(`options.advanced.regex.description`),
+              id: `content-type-builder.form.attributes.item.regex`,
               defaultMessage: 'The text of the regular expression',
             },
+          },
+        ],
+        advanced: [
+          {
+            sectionTitle: {
+              id: getTranslationId('role_settings'),
+              defaultMessage: 'Role Settings',
+            },
+            items: [
+              {
+                intlLabel: {
+                  id: getTranslationId('options.role_selector.label'),
+                  defaultMessage: 'Select one or more roles',
+                },
+                description: {
+                  id: getTranslationId('options.role_selector.description'),
+                  defaultMessage: 'Only for these roles the values will be decrypted',
+                },
+                name: 'options.roles',
+                type: 'multiselect',
+                options: [],
+              },
+            ],
           },
           {
             sectionTitle: {
@@ -55,17 +83,43 @@ export default {
             },
             items: [
               {
-                required: {
-                  name: 'required',
-                  type: 'checkbox',
-                  intlLabel: {
-                    id: 'content-type-builder.form.attribute.item.requiredField',
-                    defaultMessage: 'Required field',
-                  },
-                  description: {
-                    id: 'content-type-builder.form.attribute.item.requiredField.description',
-                    defaultMessage: "You won't be able to create an entry if this field is empty",
-                  },
+                name: 'required',
+                type: 'checkbox',
+                intlLabel: {
+                  id: 'content-type-builder.form.attribute.item.requiredField',
+                  defaultMessage: 'Required field',
+                },
+                description: {
+                  id: 'content-type-builder.form.attribute.item.requiredField.description',
+                  defaultMessage: "You won't be able to create an entry if this field is empty**",
+                },
+              },
+              {
+                name: 'private',
+                type: 'checkbox',
+                intlLabel: {
+                  id: 'content-type-builder.form.attribute.item.privateField',
+                  defaultMessage: 'Private field',
+                },
+                description: {
+                  id: 'content-type-builder.form.attribute.item.privateField.description',
+                  defaultMessage: 'This field will not show up in the API response',
+                },
+              },
+              {
+                name: 'maxLength',
+                type: 'checkbox-with-number-field',
+                intlLabel: {
+                  id: 'content-type-builder.form.attribute.item.maximumLength',
+                  defaultMessage: 'Maximum length',
+                },
+              },
+              {
+                name: 'minLength',
+                type: 'checkbox-with-number-field',
+                intlLabel: {
+                  id: 'content-type-builder.form.attribute.item.minimumLength',
+                  defaultMessage: 'Minimum length',
                 },
               },
             ],
@@ -78,7 +132,7 @@ export default {
   async registerTrads(app) {
     const { locales } = app;
 
-    const importedTrads = await Promise.all(
+    return await Promise.all(
       locales.map((locale) =>
         import(`./translations/${locale}.json`)
           .then(({ default: data }) => ({
@@ -91,7 +145,5 @@ export default {
           })),
       ),
     );
-
-    return importedTrads;
   },
 };

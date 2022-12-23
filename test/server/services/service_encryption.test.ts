@@ -4,6 +4,29 @@ import service from '../../../server/services';
 import Strapi from '@strapi/strapi';
 
 const strapi = Strapi({});
+
+const isEncryptedTestValues = [
+  { value: '903248329043284slkdfjslf', expectation: false },
+  { value: '903248329043284slkdfjslf:903248329043284slkdfjslf', expectation: false },
+  {
+    value: 'c79f854cc015d47ab2f1c1c263764d67:001f77c44ca15f84873c1f87de4d85a4',
+    expectation: false,
+  }, // encrypted with a different key
+  {
+    value: 'c79f854cc015d47ab2f1c1c263764d69:001f77c44ca15f84873c1f87de4d85a4',
+    expectation: false,
+  }, // changed char in iv length, encrypted with a different key
+  { value: '4a5499b41a2d6c193e5391a3d7056cd8:13fbf9e0bf5f18fd96968b242c858685', expectation: true },
+  {
+    value: '4a5499b41a2d6c193e5391a3d7056cdu:13fbf9e0bf5f18fd96968b242c858685',
+    expectation: false,
+  }, // changed char in iv length
+  {
+    value: '4a5499b41a2d6c193e5391a3d7056cd8:13fbf9e0bf5f18fd96968b242c858686',
+    expectation: false,
+  }, // changed char after iv length
+];
+
 describe('Encryption Service', () => {
   it('Encrypted value should be successfully decrypted', () => {
     const s = service.service({ strapi: strapi });
@@ -33,8 +56,10 @@ describe('Encryption Service', () => {
 
   it('checkIfEncrypted should return false if the value is not encrypted', () => {
     const s = service.service({ strapi: strapi });
-    const isEncrypted = s.isEncrypted('903248329043284slkdfjslf');
 
-    expect(isEncrypted).toBe(false);
+    isEncryptedTestValues.forEach((test) => {
+      const isEncrypted = s.isEncrypted(test.value);
+      expect(isEncrypted).toBe(test.expectation);
+    });
   });
 });

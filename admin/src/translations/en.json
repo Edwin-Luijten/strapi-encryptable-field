@@ -8,5 +8,7 @@
   "encryptable-field.options.advanced.regex.hint.description": "Input example",
   "encryptable-field.options.advanced.requiredField": "Required field",
   "encryptable-field.options.advanced.requiredField.description": "You won't be able to create an entry if this field is empty",
+  "encryptable-field.options.role_selector.label": "Select one or more roles",
+  "encryptable-field.options.role_selector.description": "Only for these roles the values will be decrypted",
   "encryptable-field.aria-label": "Encryptable field input"
 }

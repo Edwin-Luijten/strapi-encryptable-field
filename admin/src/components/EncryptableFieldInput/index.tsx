@@ -9,9 +9,11 @@ import {
   FieldError,
 } from '@strapi/design-system';
 import PropTypes from 'prop-types';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import getTrad from '../../utils/getTranslationId';
+import { fetchUserRoles } from '../../utils/api';
+import { useQuery } from 'react-query';
 
 const encryptableFieldInput = ({
   description,
@@ -28,42 +30,64 @@ const encryptableFieldInput = ({
 }): JSX.Element => {
   const { formatMessage } = useIntl();
   const reference = useRef(null);
+  const [isDisabled, setIsDisabled] = useState(true);
+  const { isLoading, data } = useQuery<string[], Error>('user-roles', fetchUserRoles);
+
+  useEffect(() => {
+    if (data) {
+      // If the field has no roles configured
+      if (!attribute?.options?.roles) setIsDisabled(false);
+
+      for (const id of data?.map((role: any) => role.id) ?? []) {
+        if (attribute?.options?.roles?.includes(id)) {
+          setIsDisabled(false);
+          break;
+        }
+      }
+    }
+  }, [data]);
 
   return (
-    <Box>
-      <Field
-        id={name}
-        name={name}
-        hint={attribute.options?.hint ?? description ?? ''}
-        error={error}
-        required={required}
-      >
-        <Stack spacing={1}>
-          <Flex>
-            <FieldLabel action={labelAction} required={required}>
-              {formatMessage(intlLabel)}
-            </FieldLabel>
-          </Flex>
-          <FieldInput
-            ref={reference}
-            id="encryptable-field-value"
-            disabled={disabled}
-            required={required}
+    <>
+      {!isLoading && (
+        <Box>
+          <Field
+            id={name}
             name={name}
-            aria-label={formatMessage({
-              id: getTrad('input.aria-label'),
-              defaultMessage: 'Encryptable input',
-            })}
-            value={value}
-            placeholder={placeholder}
-            onChange={onChange}
-            hint={description}
-          />
-          <FieldHint />
-          <FieldError />
-        </Stack>
-      </Field>
-    </Box>
+            hint={attribute.options?.hint ?? description ?? ''}
+            error={error}
+            required={required}
+            disabled={isDisabled}
+          >
+            <Stack spacing={1}>
+              <Flex>
+                <FieldLabel action={labelAction} required={required}>
+                  {formatMessage(intlLabel)}
+                </FieldLabel>
+              </Flex>
+              <FieldInput
+                ref={reference}
+                id={`encryptable-field-value-${name}`}
+                disabled={isDisabled}
+                required={required}
+                name={name}
+                aria-label={formatMessage({
+                  id: getTrad('encryptable-field.input.aria-label'),
+                  defaultMessage: 'Encryptable input',
+                })}
+                value={value}
+                placeholder={placeholder}
+                onChange={onChange}
+                type={isDisabled ? 'password' : undefined}
+                hint={description}
+              />
+              <FieldHint />
+              <FieldError />
+            </Stack>
+          </Field>
+        </Box>
+      )}
+    </>
   );
 };
 
