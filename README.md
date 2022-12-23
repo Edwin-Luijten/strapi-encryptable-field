@@ -13,7 +13,8 @@
 ![NPM Downloads](https://img.shields.io/npm/dm/strapi-plugin-encryptable-field?style=for-the-badge)
 
 **DISCLAIMER**
-> Before using this in production make sure you have tested that this plugin is able to encrypt and decrypt all your expected data.
+> Before using this in production make sure you have tested that this plugin is able to encrypt and decrypt all your
+> expected data.
 > Failure to decrypt results in loss of data.
 
 ## Encryption method
@@ -56,25 +57,28 @@ Add the environment variable `ENCRYPTION_KEY` to your server and the .env.
 After installation and configuration the custom field is ready to use.  
 When adding a new field, go to **custom** and select **Encryptable**.
 
-![Select Encryptable in the Custom tab when adding a new field.](./assets/encryptable_field.png "Encryptable Field")
+![Select Encryptable in the Custom tab when adding a new field.](https://github.com/Edwin-Luijten/strapi-encryptable-field/raw/main/assets/encryptable_field.png "Encryptable Field")
 
 #### Basic Settings
-> Because you loose some options to validate a field (for example an email field), you can make use of a regex and a hint to
+
+> Because you loose some options to validate a field (for example an email field), you can make use of a regex and a
+> hint to
 > tell the user what you expect.
 
-![Set a validation regex and input hint.](./assets/encryptable_field_settings.png "Field Settings")
+![Set a validation regex and input hint.](https://github.com/Edwin-Luijten/strapi-encryptable-field/raw/main/assets/encryptable_field_settings.png "Field Settings")
 
 #### Advanced Settings
 
-> By default, all fields will be decrypted when queried. It is also possible to only show the decrypted values for one or
+> By default, all fields will be decrypted when queried. It is also possible to only show the decrypted values for one
+> or
 > more roles.
 
-![Select one or more roles to show decrypted value to](./assets/role_based_decryption_settings.png "Select Roles")
+![Select one or more roles to show decrypted value to](https://github.com/Edwin-Luijten/strapi-encryptable-field/raw/main/assets/role_based_decryption_settings.png "Select Roles")
 
 > Below images show what it looks like in a form and overview when decryption is enabled for a specific role.
 
-![](./assets/role_based_decryption_form.png "Role Based Decryption In A Form")
-![](./assets/role_based_decryption_overview.png "Role Based Decryption On The Overview")
+![](https://github.com/Edwin-Luijten/strapi-encryptable-field/raw/main/assets/role_based_decryption_form.png "Role Based Decryption In A Form")
+![](https://github.com/Edwin-Luijten/strapi-encryptable-field/raw/main/assets/role_based_decryption_overview.png "Role Based Decryption On The Overview")
 
 ## 🚀 Roadmap
 
