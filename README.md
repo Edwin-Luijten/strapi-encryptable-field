@@ -9,9 +9,9 @@
 > ONLY STORE PII DATA WHEN NEEDED AND ONLY THE BARE MINIMUM.   
 > CONSULT THE RULES AROUND PII DATA THAT APPLY IN THE REGIONS YOU OPERATE IN.
 
-![GitHub Workflow Status (develop)](https://img.shields.io/github/actions/workflow/status/edwin-luijten/strapi-encryptable-field/npm-publish.yml?style=for-the-badge)
+![GitHub Workflow Status (main)](https://img.shields.io/github/actions/workflow/status/edwin-luijten/strapi-encryptable-field/npm-publish.yml?style=for-the-badge)
 ![NPM Downloads](https://img.shields.io/npm/dm/strapi-plugin-encryptable-field?style=for-the-badge)
-[![](https://img.shields.io/badge/Strapi-Market%20Place-blue?style=for-the-badge)](https://market.strapi.io/plugins/strapi-plugin-encryptable-field)
+[![Strapi Market Place](https://img.shields.io/badge/Strapi-Market%20Place-blue?style=for-the-badge)](https://market.strapi.io/plugins/strapi-plugin-encryptable-field)
 
 **DISCLAIMER**
 > Before using this in production make sure you have tested that this plugin is able to encrypt and decrypt all your
