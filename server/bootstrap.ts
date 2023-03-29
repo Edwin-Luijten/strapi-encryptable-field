@@ -23,7 +23,7 @@ export default ({ strapi }: { strapi }) => {
     },
 
     async afterFindOne(event): Promise<void> {
-      if (event.result) { // If there is no result, there is no need to decrypt anything
+      if (event['result']) { // If there is no result, there is no need to decrypt anything
         const ctx = strapi.requestContext.get();
 
         const attributes = encryptionService.getFields(
@@ -43,7 +43,7 @@ export default ({ strapi }: { strapi }) => {
     },
 
     afterFindMany(event): void {
-      if (event.result && event.result.length > 0) { // If there is no result, there is no need to decrypt anything
+      if (event['result'] && event['result'].length > 0) { // If there is no result, there is no need to decrypt anything
         const ctx = strapi.requestContext.get();
 
         const attributes = encryptionService.getFields(
