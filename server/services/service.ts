@@ -72,13 +72,12 @@ export default ({ strapi }: { strapi: Strapi }) => ({
   decrypt(value: string): string {
     if (!value) return value;
 
-    const textParts = value.split(':');
-    const firstPart = textParts.shift();
+    const dotsPos = value.indexOf(':');
 
     if (!firstPart) throw new Error('Malformed payload');
 
-    const iv = Buffer.from(firstPart, 'hex');
-    const encryptedText = Buffer.from(textParts.join(':'), 'hex');
+    const iv = Buffer.from(value.slice(0, dotsPos), 'hex');
+    const encryptedText = Buffer.from(value.slice(dotsPos + 1), 'hex');
     const decipher = createDecipheriv(AES_METHOD, Buffer.from(KEY), iv);
 
     let decrypted = decipher.update(encryptedText);
