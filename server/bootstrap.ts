@@ -23,40 +23,44 @@ export default ({ strapi }: { strapi }) => {
     },
 
     async afterFindOne(event): Promise<void> {
-      const ctx = strapi.requestContext.get();
+      if (event.result) { // If there is no result, there is no need to decrypt anything
+        const ctx = strapi.requestContext.get();
 
-      const attributes = encryptionService.getFields(
-        event.model.attributes,
-        ctx?.state?.user?.roles,
-      );
+        const attributes = encryptionService.getFields(
+          event.model.attributes,
+          ctx?.state?.user?.roles,
+        );
 
-      attributes.forEach((attr) => {
-        try {
-          event['result'][attr] = encryptionService.decrypt(event['result'][attr]);
-        } catch (e) {
-          console.error(`Failed to decrypt ${attr}.`, e.message);
-          event['result'][attr] = event['result'][attr];
-        }
-      });
+        attributes.forEach((attr) => {
+          try {
+            event['result'][attr] = encryptionService.decrypt(event['result'][attr]);
+          } catch (e) {
+            console.error(`Failed to decrypt ${attr}.`, e.message);
+            event['result'][attr] = event['result'][attr];
+          }
+        });
+      }
     },
 
     afterFindMany(event): void {
-      const ctx = strapi.requestContext.get();
+      if (event.result && event.result.length > 0) { // If there is no result, there is no need to decrypt anything
+        const ctx = strapi.requestContext.get();
 
-      const attributes = encryptionService.getFields(
-        event.model.attributes,
-        ctx?.state?.user?.roles,
-      );
-      event['result'].forEach((result, i) =>
-        attributes.forEach((attr) => {
-          try {
-            event['result'][i][attr] = encryptionService.decrypt(event['result'][i][attr]);
-          } catch (e) {
-            console.error(`Failed to decrypt ${attr} at index ${i}.`, e.message);
-            event['result'][i][attr] = event['result'][i][attr];
-          }
-        }),
-      );
+        const attributes = encryptionService.getFields(
+          event.model.attributes,
+          ctx?.state?.user?.roles,
+        );
+        event['result'].forEach((result, i) =>
+          attributes.forEach((attr) => {
+            try {
+              event['result'][i][attr] = encryptionService.decrypt(event['result'][i][attr]);
+            } catch (e) {
+              console.error(`Failed to decrypt ${attr} at index ${i}.`, e.message);
+              event['result'][i][attr] = event['result'][i][attr];
+            }
+          }),
+        );
+      }
     },
   }) as Subscriber);
 };
