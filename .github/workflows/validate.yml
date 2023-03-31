@@ -1,7 +1,8 @@
-name: Pre-Publish
+name: Validate
 
 on:
-  push:
+  pull_request:
+  merge_group:
     branches:
       - main
 
@@ -24,14 +25,3 @@ jobs:
 
       - name: "Running tests"
         run: npm run test
-
-      - name: "Build release"
-        run: npm run build
-
-      - name: "Copy README.md"
-        run: cp README.md dist/README.md
-
-      - name: "Publish to NPM"
-        run: cd dist && npm publish --dry-run
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
