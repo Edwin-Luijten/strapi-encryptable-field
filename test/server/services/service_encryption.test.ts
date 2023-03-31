@@ -26,7 +26,7 @@ const isEncryptedTestValues = [
     expectation: false,
   }, // changed char after iv length
   {
-    value: '!dfflv;.@:Some_garbage_iv',
+    value: '!dfflv;.@4a5499b41a2d6caldl:Some_garbage_iv',
     expectation: false,
   },
   {
