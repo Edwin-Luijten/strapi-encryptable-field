@@ -37,12 +37,11 @@ export default ({ strapi }: { strapi: Strapi }) => ({
   isEncrypted(value: string): boolean {
     if (!value) return false;
 
-    const textParts = value.split(':');
-    const firstPart = textParts.shift();
+    const dotsPos = value.indexOf(':');
 
-    if (!firstPart) throw new Error('Malformed payload');
+    if (dotsPos < 0) return false
 
-    const iv = Buffer.from(firstPart, 'hex');
+    const iv = Buffer.from(value.slice(0, dotsPos), 'hex');
 
     // Test first indications of encrypted or not
     if (iv.length !== IV_LENGTH && !/[0-9A-Fa-f]{6}/g.test(value)) {
@@ -72,13 +71,12 @@ export default ({ strapi }: { strapi: Strapi }) => ({
   decrypt(value: string): string {
     if (!value) return value;
 
-    const textParts = value.split(':');
-    const firstPart = textParts.shift();
+    const dotsPos = value.indexOf(':');
 
-    if (!firstPart) throw new Error('Malformed payload');
+    if (dotsPos < 0) throw new Error('Malformed payload');
 
-    const iv = Buffer.from(firstPart, 'hex');
-    const encryptedText = Buffer.from(textParts.join(':'), 'hex');
+    const iv = Buffer.from(value.slice(0, dotsPos), 'hex');
+    const encryptedText = Buffer.from(value.slice(dotsPos + 1), 'hex');
     const decipher = createDecipheriv(AES_METHOD, Buffer.from(KEY), iv);
 
     let decrypted = decipher.update(encryptedText);

@@ -38,12 +38,12 @@ describe('Encryption Service', () => {
 
   it('It should throw an error on invalid initialization vector', () => {
     const s = service.service({ strapi: strapi });
-    expect(() => s.decrypt('a')).toThrow('Invalid initialization vector');
+    expect(() => s.decrypt(':')).toThrow('Invalid initialization vector');
   });
 
   it('It should throw an error on malformed payload', () => {
     const s = service.service({ strapi: strapi });
-    expect(() => s.decrypt(':')).toThrow('Malformed payload');
+    expect(() => s.decrypt('a')).toThrow('Malformed payload');
   });
 
   it('checkIfEncrypted should return true if the value is already encrypted', () => {
