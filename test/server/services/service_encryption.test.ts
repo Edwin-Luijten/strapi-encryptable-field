@@ -25,6 +25,14 @@ const isEncryptedTestValues = [
     value: '4a5499b41a2d6c193e5391a3d7056cd8:13fbf9e0bf5f18fd96968b242c858686',
     expectation: false,
   }, // changed char after iv length
+  {
+    value: '!dfflv;.@:Some_garbage_iv',
+    expectation: false,
+  },
+  {
+    value: '4a5499b41a2d6c:A_truncated_iv',
+    expectation: false,
+  },
 ];
 
 describe('Encryption Service', () => {

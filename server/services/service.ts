@@ -44,7 +44,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     const iv = Buffer.from(value.slice(0, dotsPos), 'hex');
 
     // Test first indications of encrypted or not
-    if (iv.length !== IV_LENGTH && !/[0-9A-Fa-f]{6}/g.test(value)) {
+    if (iv.length !== IV_LENGTH) {
       return false;
     }
 
