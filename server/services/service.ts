@@ -39,7 +39,8 @@ export default ({ strapi }: { strapi: Strapi }) => ({
 
     const dotsPos = value.indexOf(':');
 
-    if (dotsPos < 0) return false
+    // We can do a sanity check here, because the IV being hexadecimal encoded should be around double IV_LENGTH
+    if (dotsPos < IV_LENGTH) return false
 
     const iv = Buffer.from(value.slice(0, dotsPos), 'hex');
 
