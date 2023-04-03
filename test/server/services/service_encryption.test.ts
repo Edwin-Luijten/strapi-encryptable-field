@@ -25,6 +25,14 @@ const isEncryptedTestValues = [
     value: '4a5499b41a2d6c193e5391a3d7056cd8:13fbf9e0bf5f18fd96968b242c858686',
     expectation: false,
   }, // changed char after iv length
+  {
+    value: '!dfflv;.@4a5499b41a2d6caldl:Some_garbage_iv',
+    expectation: false,
+  },
+  {
+    value: '4a5499b41a2d6c:A_truncated_iv',
+    expectation: false,
+  },
 ];
 
 describe('Encryption Service', () => {
@@ -38,12 +46,12 @@ describe('Encryption Service', () => {
 
   it('It should throw an error on invalid initialization vector', () => {
     const s = service.service({ strapi: strapi });
-    expect(() => s.decrypt('a')).toThrow('Invalid initialization vector');
+    expect(() => s.decrypt(':')).toThrow('Invalid initialization vector');
   });
 
   it('It should throw an error on malformed payload', () => {
     const s = service.service({ strapi: strapi });
-    expect(() => s.decrypt(':')).toThrow('Malformed payload');
+    expect(() => s.decrypt('a')).toThrow('Malformed payload');
   });
 
   it('checkIfEncrypted should return true if the value is already encrypted', () => {
