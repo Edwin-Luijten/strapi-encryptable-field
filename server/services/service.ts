@@ -21,7 +21,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
           Object.hasOwn(fields[attribute].options, 'roles')
         ) {
           for (const id of roles?.map((role: any) => role.id) ?? []) {
-            if (fields[attribute].options.roles.includes(id)) {
+            if (fields[attribute].options.roles.includes(id.toString())) {
               attributes.push(attribute);
             }
           }

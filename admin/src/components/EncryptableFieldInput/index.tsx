@@ -39,7 +39,7 @@ const encryptableFieldInput = ({
       if (!attribute?.options?.roles) setIsDisabled(false);
 
       for (const id of data?.map((role: any) => role.id) ?? []) {
-        if (attribute?.options?.roles?.includes(id)) {
+        if (attribute?.options?.roles?.includes(id.toString())) {
           setIsDisabled(false);
           break;
         }
