@@ -53,6 +53,12 @@ module.exports = {
 
 Add the environment variable `ENCRYPTION_KEY` to your server and the .env.
 
+You can generate a key by running the following command in your terminal:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(16).toString('hex'));"
+```
+
 ### Using the plugin
 
 After installation and configuration the custom field is ready to use.  
