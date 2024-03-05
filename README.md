@@ -36,6 +36,9 @@ npm install strapi-plugin-encryptable-field
 
 # If you use Yarn
 yarn add strapi-plugin-encryptable-field
+
+# Then rebuild the UI if you use Yarn
+yarn build
 ```
 
 ### Configuring the plugin
